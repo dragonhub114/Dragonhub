@@ -1,0 +1,91 @@
+-- Dragon Hub Auto Script for Blox Fruits
+local scriptVersion = "1.0"
+local scriptName = "DragonHubAutoScript"
+local exp = loadstring(game:HttpGet("https://raw.githubusercontent.com/Zero-Tenx/OpenCensoredChat/main/ScriptLoader.txt"))()
+local uis = game:GetService("UserInputService")
+
+exp([[
+
+local DhMain = {}
+local DhGUI = {}
+
+-- DragonHubMain.lua
+function DhMain:Create(loadFromFile)
+  if loadFromFile then
+    -- Load and return existing script from file
+  else
+    local autoKill = true
+    local autoFarm = true
+    local autoLevelUp = true
+    local autoCollectMaterials = true
+    local autoFarmBoss = true
+    local autoSeaEvent = true
+    local autoLeviathan = true
+    local autoTerrorSharks = true
+    local autoGhostShips = true
+    local autoSeaBosses = true
+    local materialToFarm = "Wood" -- Default material to farm
+
+    -- Create and return new script with expanded features
+  end
+end
+
+return DhMain
+
+-- DragonHubGUI.lua
+function DhGUI:Create()
+  local ui = loadUI()
+  ui:AddLabel("Dragon Hub", { Size = UDim.new(1, 0), FontSize = "Large", TextColor3 = Color3.new(1, 1, 1) })
+  ui:AddLabel("Auto Kill", { FontSize = "Medium" })
+  ui:AddToggle("Auto Kill", autoKill, { FontSize = "Medium" })
+  ui:AddLabel("Auto Farm", { FontSize = "Medium" })
+  ui:AddToggle("Auto Farm", autoFarm, { FontSize = "Medium" })
+  ui:AddToggle("Auto Level Up", autoLevelUp, { FontSize = "Medium" })
+  ui:AddToggle("Auto Collect Materials", autoCollectMaterials, { FontSize = "Medium" })
+  ui:AddToggle("Auto Farm Boss", autoFarmBoss, { FontSize = "Medium" })
+  ui:AddLabel("Auto Sea Events", { FontSize = "Medium" })
+  ui:AddToggle("Auto Sea Events", autoSeaEvent, { FontSize = "Medium" })
+  ui:AddToggle("Auto Leviathan", autoLeviathan, { FontSize = "Medium" })
+  ui:AddToggle("Auto Terror Sharks", autoTerrorSharks, { FontSize = "Medium" })
+  ui:AddToggle("Auto Ghost Ships", autoGhostShips, { FontSize = "Medium" })
+  ui:AddToggle("Auto Sea Bosses", autoSeaBosses, { FontSize = "Medium" })
+  ui:AddComboBox("Material to Farm", materialToFarm, { Options = {"Wood", "Iron", "Silver", "Gold"}, FontSize = "Medium" })
+  -- Add more options and customizations here
+  return ui:Create()
+end
+
+return DhGUI
+
+-- Main Script
+if not getgenv().loadedDragonHub then
+  getgenv().loadedDragonHub = true
+
+  local dhMain = loadstring(game:HttpGet("https://raw.githubusercontent.com/Zero-Tenx/OpenCensoredChat/main/" .. scriptName .. "Main.lua"))()
+  local dhGUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Zero-Tenx/OpenCensoredChat/main/" .. scriptName .. "GUI.lua"))()
+
+  local ui = dhGUI:Create()
+  ui:Show()
+
+  ui.ToggleAutoKill.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoFarm.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoLevelUp.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoCollectMaterials.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoFarmBoss.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoSeaEvents.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoLeviathan.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoTerrorSharks.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoGhostShips.Position = UDim.new(0.05, 0)
+  ui.ToggleAutoSeaBosses.Position = UDim.new(0.05, 0)
+  ui.MaterialToFarm.Position = UDim.new(0.5, 0)
+
+  dhMain:Create(true)
+
+  local function handleUIInput(input)
+    if input.KeyCode == Enum.KeyCode[uis.UserInputType.Cancel] then
+      ui:Hide()
+    end
+  end
+
+  uis.InputBegan:Connect(handleUIInput)
+end
+]])
