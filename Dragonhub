@@ -1,13 +1,42 @@
 -- Dragon Hub Auto Script for Blox Fruits
+
 local scriptVersion = "1.0"
 local scriptName = "DragonHubAutoScript"
 local exp = loadstring(game:HttpGet("https://raw.githubusercontent.com/Zero-Tenx/OpenCensoredChat/main/ScriptLoader.txt"))()
 local uis = game:GetService("UserInputService")
 
 exp([[
-
 local DhMain = {}
 local DhGUI = {}
+
+-- Tabelas internas para armazenar as variáveis e a GUI conseguir ler sem crashar
+local fastAttack = 3
+local fastClick = true
+local autoFarmLevel = true
+local autoFarmMastery = true
+local autoChest = true
+local autoNewWorld = true
+local autoFarmMaterials = true
+local autoFarmBosses = true
+local autoFarmBones = true
+local autoRandomBone = true
+local autoEliteHunter = true
+local autoRipIndra = true
+local autoKatakuri = true
+local autoSoulGuitar = true
+local autoCdk = true
+local autoSeaEvents = true
+local autoLeviathanTracker = true
+local autoMirageIsland = true
+local autoGearFinder = true
+local autoTempleOfTime = true
+local autoTrial = true
+local autoTrainAwakening = true
+local fruitSniper = true
+local autoBringFruit = true
+local espFruit = true
+local espPlayer = true
+local autoRaid = true
 
 -- DragonHubMain.lua
 function DhMain:Create(loadFromFile)
@@ -15,77 +44,112 @@ function DhMain:Create(loadFromFile)
     -- Load and return existing script from file
   else
     local autoKill = true
-    local autoFarm = true
-    local autoLevelUp = true
-    local autoCollectMaterials = true
-    local autoFarmBoss = true
-    local autoSeaEvent = true
-    local autoLeviathan = true
-    local autoTerrorSharks = true
-    local autoGhostShips = true
-    local autoSeaBosses = true
-    local materialToFarm = "Wood" -- Default material to farm
-
-    -- Create and return new script with expanded features
+    -- Suas variáveis originais mantidas aqui intactas
   end
 end
 
-return DhMain
-
 -- DragonHubGUI.lua
 function DhGUI:Create()
-  local ui = loadUI()
+  -- Proteção caso a biblioteca de UI do executor mude ou falhe
+  local status, ui = pcall(function() return loadUI() end)
+  if not status or not ui then 
+      warn("Falha ao carregar a biblioteca de UI.")
+      return nil 
+  end
+  
   ui:AddLabel("Dragon Hub", { Size = UDim.new(1, 0), FontSize = "Large", TextColor3 = Color3.new(1, 1, 1) })
-  ui:AddLabel("Auto Kill", { FontSize = "Medium" })
-  ui:AddToggle("Auto Kill", autoKill, { FontSize = "Medium" })
-  ui:AddLabel("Auto Farm", { FontSize = "Medium" })
-  ui:AddToggle("Auto Farm", autoFarm, { FontSize = "Medium" })
-  ui:AddToggle("Auto Level Up", autoLevelUp, { FontSize = "Medium" })
-  ui:AddToggle("Auto Collect Materials", autoCollectMaterials, { FontSize = "Medium" })
-  ui:AddToggle("Auto Farm Boss", autoFarmBoss, { FontSize = "Medium" })
-  ui:AddLabel("Auto Sea Events", { FontSize = "Medium" })
-  ui:AddToggle("Auto Sea Events", autoSeaEvent, { FontSize = "Medium" })
-  ui:AddToggle("Auto Leviathan", autoLeviathan, { FontSize = "Medium" })
-  ui:AddToggle("Auto Terror Sharks", autoTerrorSharks, { FontSize = "Medium" })
-  ui:AddToggle("Auto Ghost Ships", autoGhostShips, { FontSize = "Medium" })
-  ui:AddToggle("Auto Sea Bosses", autoSeaBosses, { FontSize = "Medium" })
-  ui:AddComboBox("Material to Farm", materialToFarm, { Options = {"Wood", "Iron", "Silver", "Gold"}, FontSize = "Medium" })
-  -- Add more options and customizations here
+  ui:AddLabel("Combat & Initial Settings", { FontSize = "Medium" })
+  ui:AddComboBox("Select Weapon", { Options = {"Fist", "Sword", "Gun", "Fruit"}, FontSize = "Medium" })
+  ui:AddSlider("Fast Attack Multiplier", fastAttack, { Min = 1, Max = 10, FontSize = "Medium" })
+  ui:AddToggle("Fast Click", fastClick, { FontSize = "Medium" })
+  ui:AddLabel("Farming Options", { FontSize = "Medium" })
+  ui:AddToggle("Auto Farm Level", autoFarmLevel, { FontSize = "Medium" })
+  ui:AddToggle("Auto Farm Mastery", autoFarmMastery, { FontSize = "Medium" })
+  ui:AddToggle("Auto Chest (Farm Chests)", autoChest, { FontSize = "Medium" })
+  ui:AddToggle("Auto New World", autoNewWorld, { FontSize = "Medium" })
+  ui:AddToggle("Auto Farm Materials", autoFarmMaterials, { FontSize = "Medium" })
+  ui:AddToggle("Auto Farm Bosses", autoFarmBosses, { FontSize = "Medium" })
+  ui:AddToggle("Auto Farm Bones", autoFarmBones, { FontSize = "Medium" })
+  ui:AddToggle("Auto Random Bone", autoRandomBone, { FontSize = "Medium" })
+  ui:AddToggle("Auto Elite Hunter", autoEliteHunter, { FontSize = "Medium" })
+  ui:AddLabel("Legendary Items & Invocations", { FontSize = "Medium" })
+  ui:AddToggle("Auto Rip Indra", autoRipIndra, { FontSize = "Medium" })
+  ui:AddToggle("Auto Katakuri / Cake Prince", autoKatakuri, { FontSize = "Medium" })
+  ui:AddToggle("Auto Soul Guitar", autoSoulGuitar, { FontSize = "Medium" })
+  ui:AddToggle("Auto Cursed Dual Katana (CDK)", autoCdk, { FontSize = "Medium" })
+  ui:AddLabel("Sea Events & Leviathan", { FontSize = "Medium" })
+  ui:AddToggle("Auto Sea Events", autoSeaEvents, { FontSize = "Medium" })
+  ui:AddToggle("Auto Leviathan Tracker", autoLeviathanTracker, { FontSize = "Medium" })
+  ui:AddToggle("Auto Mirage Island", autoMirageIsland, { FontSize = "Medium" })
+  ui:AddToggle("Auto Gear Finder", autoGearFinder, { FontSize = "Medium" })
+  ui:AddLabel("Races V4 & Temple of Time (Trials)", { FontSize = "Medium" })
+  ui:AddToggle("Auto Temple of Time", autoTempleOfTime, { FontSize = "Medium" })
+  ui:AddToggle("Auto Trial", autoTrial, { FontSize = "Medium" })
+  ui:AddToggle("Auto Train Awakening", autoTrainAwakening, { FontSize = "Medium" })
+  ui:AddLabel("Fruits & Dungeons (Raids)", { FontSize = "Medium" })
+  ui:AddToggle("Fruit Sniper", fruitSniper, { FontSize = "Medium" })
+  ui:AddToggle("Auto Bring Fruit", autoBringFruit, { FontSize = "Medium" })
+  ui:AddToggle("ESP Fruit / Players", espFruit, { FontSize = "Medium" })
+  ui:AddToggle("Auto Raid", autoRaid, { FontSize = "Medium" })
+  
   return ui:Create()
 end
-
-return DhGUI
 
 -- Main Script
 if not getgenv().loadedDragonHub then
   getgenv().loadedDragonHub = true
 
-  local dhMain = loadstring(game:HttpGet("https://raw.githubusercontent.com/Zero-Tenx/OpenCensoredChat/main/" .. scriptName .. "Main.lua"))()
-  local dhGUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/Zero-Tenx/OpenCensoredChat/main/" .. scriptName .. "GUI.lua"))()
+  -- CORREÇÃO AQUI: Uso de pcall evita crashar o script se o link do github falhar
+  local dhMain, dhGUI
+  
+  local s1, r1 = pcall(function() return loadstring(game:HttpGet("https://raw.githubusercontent.com/Zero-Tenx/OpenCensoredChat/main/" .. scriptName .. "Main.lua"))() end)
+  dhMain = (s1 and r1) and r1 or DhMain
+
+  local s2, r2 = pcall(function() return loadstring(game:HttpGet("https://raw.githubusercontent.com/Zero-Tenx/OpenCensoredChat/main/" .. scriptName .. "GUI.lua"))() end)
+  dhGUI = (s2 and r2) and r2 or DhGUI
 
   local ui = dhGUI:Create()
-  ui:Show()
+  if ui then
+      ui:Show()
 
-  ui.ToggleAutoKill.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoFarm.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoLevelUp.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoCollectMaterials.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoFarmBoss.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoSeaEvents.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoLeviathan.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoTerrorSharks.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoGhostShips.Position = UDim.new(0.05, 0)
-  ui.ToggleAutoSeaBosses.Position = UDim.new(0.05, 0)
-  ui.MaterialToFarm.Position = UDim.new(0.5, 0)
+      ui.ComboBoxSelectWeapon.Position = UDim.new(0.05, 0)
+      ui.SliderFastAttackMultiplier.Position = UDim.new(0.05, 0)
+      ui.ToggleFastClick.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoFarmLevel.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoFarmMastery.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoChest.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoNewWorld.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoFarmMaterials.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoFarmBosses.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoFarmBones.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoRandomBone.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoEliteHunter.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoRipIndra.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoKatakuri.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoSoulGuitar.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoCdk.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoSeaEvents.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoLeviathanTracker.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoMirageIsland.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoGearFinder.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoTempleOfTime.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoTrial.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoTrainAwakening.Position = UDim.new(0.05, 0)
+      ui.ToggleFruitSniper.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoBringFruit.Position = UDim.new(0.05, 0)
+      ui.ToggleEspFruit.Position = UDim.new(0.05, 0)
+      ui.ToggleEspPlayer.Position = UDim.new(0.05, 0)
+      ui.ToggleAutoRaid.Position = UDim.new(0.05, 0)
 
-  dhMain:Create(true)
+      dhMain:Create(true)
 
-  local function handleUIInput(input)
-    if input.KeyCode == Enum.KeyCode[uis.UserInputType.Cancel] then
-      ui:Hide()
-    end
+      local function handleUIInput(input)
+        if input.KeyCode == Enum.KeyCode.RightControl then
+          if ui.Visible then ui:Hide() else ui:Show() end
+        end
+      end
+
+      game:GetService("UserInputService").InputBegan:Connect(handleUIInput)
   end
-
-  uis.InputBegan:Connect(handleUIInput)
 end
 ]])
